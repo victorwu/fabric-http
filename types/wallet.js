@@ -1,13 +1,14 @@
 'use strict';
 
 const Fabric = require('@fabric/core');
-const bcoin = require('bcoin/lib/bcoin-browser').set('regtest');
+const bcoin = require('bcoin/lib/bcoin-browser').set('regtest'); // TODO: bcoin
+const bip39 = require('bip39')
 
-const WalletDB = bcoin.WalletDB;
-const WalletKey = bcoin.wallet.WalletKey;
-const KeyRing = bcoin.KeyRing;
-const Mnemonic = bcoin.hd.Mnemonic;
-const HD = bcoin.hd;
+const WalletDB = bcoin.WalletDB; // TODO: bcoin
+const WalletKey = bcoin.wallet.WalletKey; // TODO: bcoin
+const KeyRing = bcoin.KeyRing; // TODO: bcoin
+const Mnemonic = bcoin.hd.Mnemonic; // TODO: bcoin
+const HD = bcoin.hd; // TODO: bcoin
 
 /**
  * Manage keys and track their balances.
@@ -27,7 +28,7 @@ class Wallet extends Fabric.Service {
       network: 'regtest'
     }, settings);
 
-    this.database = new WalletDB({
+    this.database = new WalletDB({ // TODO: bcoin
       db: 'memory',
       network: 'regtest'
     });
@@ -38,8 +39,8 @@ class Wallet extends Fabric.Service {
     this.master = null;
     this.seed = null;
 
-    this.words = Mnemonic.getWordlist('english').words;
-    this.mnemonic = new Mnemonic();
+    this.words = Mnemonic.getWordlist('english').words; // TODO: bcoin
+    this.mnemonic = new Mnemonic(); // TODO: bcoin
 
     this.status = 'closed';
 
@@ -76,12 +77,12 @@ class Wallet extends Fabric.Service {
   async _registerAccount (obj) {
     this.status = 'creating';
 
-    if (!this.database.db.loaded) {
-      await this.database.open();
+    if (!this.database.db.loaded) { // TODO: bcoin
+      await this.database.open(); // TODO: bcoin
     }
 
     try {
-      this.wallet = await this.database.create();
+      this.wallet = await this.database.create(); // TODO: bcoin
     } catch (E) {
       console.error('Could not create wallet:', E);
     }
@@ -95,7 +96,7 @@ class Wallet extends Fabric.Service {
   }
 
   async _unload () {
-    return this.database.close();
+    return this.database.close(); // TODO: bcoin
   }
 
   async _load (settings = {}) {
@@ -103,20 +104,20 @@ class Wallet extends Fabric.Service {
 
     this.status = 'loading';
 
-    await this.database.open();
+    await this.database.open(); // TODO: bcoin
 
-    this.wallet = await this.database.create();
-    this.account = await this.wallet.getAccount('default');
+    this.wallet = await this.database.create(); // TODO: bcoin
+    this.account = await this.wallet.getAccount('default'); // TODO: bcoin
     this.address = await this.account.receiveAddress();
-    this.seed = this.wallet.master.mnemonic.phrase;
+    this.seed = this.wallet.master.mnemonic.phrase; // TODO: bcoin
 
     this.status = 'loaded';
 
     this.emit('ready');
 
-    console.log('[FABRIC:WALLET]', 'Wallet opened:', this.wallet);
+    console.log('[FABRIC:WALLET]', 'Wallet opened:', this.wallet); // TODO: bcoin
 
-    return this.wallet;
+    return this.wallet; // TODO: bcoin
   }
 
   async start () {

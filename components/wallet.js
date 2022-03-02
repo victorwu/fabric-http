@@ -1,6 +1,6 @@
 'use strict';
 
-const bcoin = require('bcoin/lib/bcoin-browser').set('testnet');
+// const bcoin = require('bcoin/lib/bcoin-browser').set('testnet');
 
 const Fabric = require('@fabric/core');
 // const Component = require('./component');
