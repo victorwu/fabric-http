@@ -1,14 +1,15 @@
 'use strict';
 
 const Fabric = require('@fabric/core');
-const bcoin = require('bcoin/lib/bcoin-browser').set('regtest'); // TODO: bcoin
-const bip39 = require('bip39')
+const bcoin = require('bcoin/lib/bcoin-browser').set('regtest'); // bcoin
+const bip39 = require('bip39');
+const bitcoin = require('bitcoinjs-lib');
 
 const WalletDB = bcoin.WalletDB; // TODO: bcoin
-const WalletKey = bcoin.wallet.WalletKey; // TODO: bcoin
-const KeyRing = bcoin.KeyRing; // TODO: bcoin
-const Mnemonic = bcoin.hd.Mnemonic; // TODO: bcoin
-const HD = bcoin.hd; // TODO: bcoin
+// const WalletKey = bcoin.wallet.WalletKey; // TODO: bcoin
+// const KeyRing = bcoin.KeyRing; // TODO: bcoin
+// const Mnemonic = bcoin.hd.Mnemonic; // bcoin
+// const HD = bcoin.hd; // TODO: bcoin
 
 /**
  * Manage keys and track their balances.
@@ -28,6 +29,8 @@ class Wallet extends Fabric.Service {
       network: 'regtest'
     }, settings);
 
+
+    // Add wallet database into memory
     this.database = new WalletDB({ // TODO: bcoin
       db: 'memory',
       network: 'regtest'
@@ -39,8 +42,8 @@ class Wallet extends Fabric.Service {
     this.master = null;
     this.seed = null;
 
-    this.words = Mnemonic.getWordlist('english').words; // TODO: bcoin
-    this.mnemonic = new Mnemonic(); // TODO: bcoin
+    this.words = bip39.wordlists.english; // get wordlist
+    this.mnemonic = bip39.generateMnemonic(); // generate a new wallet seed phrase
 
     this.status = 'closed';
 
